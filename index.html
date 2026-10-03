@@ -1,597 +1,476 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Firma Kartı</title>
-    <!-- Ödeme Kopyala v3 -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yiğit İletişim</title>
+<!-- Poppins Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+* {
+    box-sizing: border-box;
+}
 
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Poppins", sans-serif;
+    background:
+        radial-gradient(circle at top left, #333 0%, transparent 35%),
+        linear-gradient(145deg, #090909, #242424);
+}
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+.card {
+    width: 100%;
+    max-width: 440px;
+    background: #ffffff;
+    border-radius: 28px;
+    padding: 30px 22px 24px;
+    text-align: center;
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.40);
+}
 
-    <style>
-        * { box-sizing: border-box; }
+/* LOGO */
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: "Poppins", sans-serif;
-            background: linear-gradient(135deg, #eef2ff, #f8fafc);
-            color: #111827;
-        }
+.logo {
+    width: 82px;
+    height: 82px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-        .wrap {
-            max-width: 520px;
-            margin: 0 auto;
-            padding: 25px 16px 40px;
-        }
+    background: #111;
+    color: #ffd400;
 
-        .card {
-            background: #fff;
-            border-radius: 24px;
-            padding: 30px 20px;
-            box-shadow: 0 12px 35px #00000012;
-            text-align: center;
-        }
+    border: 3px solid #ffd400;
 
-        .logo {
-            width: 105px;
-            height: 105px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #fff;
-            box-shadow: 0 5px 20px #0002;
-            background: #f3f4f6;
-        }
+    font-size: 24px;
+    font-weight: 800;
 
-        h1 {
-            margin: 18px 0 6px;
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
+    box-shadow: 0 8px 25px rgba(0,0,0,.18);
+}
 
-        .sub {
-            color: #6b7280;
-            margin-bottom: 24px;
-            font-size: 14px;
-            font-weight: 500;
-        }
+/* BAŞLIK */
 
-        .buttons {
-            display: grid;
-            gap: 11px;
-        }
+h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #111;
+}
 
-        a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            text-decoration: none;
-            padding: 14px;
-            border-radius: 13px;
-            font-size: 15px;
-            font-weight: 600;
-            color: white;
-            transition: transform .15s ease, opacity .15s ease;
-        }
+/* INSTAGRAM */
 
-        a:hover {
-            transform: translateY(-2px);
-            opacity: .94;
-        }
+.instagram {
+    display: inline-block;
+    margin: 7px 0 24px;
+    color: #777;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+}
 
-        a i { font-size: 19px; }
+.instagram:hover {
+    color: #111;
+}
 
-        a.phone { background: #374151; }
-        a.whatsapp { background: #25D366; }
+/* GENEL KUTU */
 
-        a.instagram {
-            background: linear-gradient(
-                45deg,
-                #f58529,
-                #dd2a7b,
-                #8134af,
-                #515bd4
-            );
-        }
+.box {
+    background: #f7f7f8;
+    border: 1px solid #eeeeef;
+    border-radius: 18px;
+    padding: 18px 15px;
+    text-align: left;
+    margin-bottom: 14px;
+}
 
-        a.maps { background: #2563eb; }
-        a.web { background: #7c3aed; }
+/* ETİKET */
 
-        .bank-card {
-            margin-top: 22px;
-            padding: 20px;
-            border-radius: 20px;
-            background: #fff;
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, .07);
-            text-align: left;
-        }
+.label {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 5px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
 
-        .bank-title {
-            display: flex;
-            align-items: center;
-            gap: 11px;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eef0f3;
-        }
+/* DEĞER */
 
-        .bank-title-icon {
-            width: 42px;
-            height: 42px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 12px;
-            background: #ecfdf5;
-            color: #16a34a;
-            flex-shrink: 0;
-        }
+.value {
+    font-size: 17px;
+    font-weight: 700;
+    color: #171717;
+    word-break: break-word;
+    line-height: 1.5;
+}
 
-        .bank-title-icon i { font-size: 19px; }
+/* ÖDEME BAŞLIĞI */
 
-        .bank-title-text {
-            display: flex;
-            flex-direction: column;
-            gap: 1px;
-        }
+.payment-title {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 16px;
+    font-size: 17px;
+    font-weight: 800;
+    color: #111;
+}
 
-        .bank-title-main {
-            font-size: 17px;
-            font-weight: 700;
-            color: #111827;
-        }
+.payment-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: #111;
+    color: #ffd400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+}
 
-        .bank-title-sub {
-            font-size: 11px;
-            color: #9ca3af;
-            font-weight: 500;
-        }
+/* IBAN KUTUSU */
 
-        .account-info {
-            margin-bottom: 15px;
-        }
+.iban-area {
+    background: #fff;
+    border: 1px solid #e7e7e7;
+    border-radius: 15px;
+    padding: 14px;
+}
 
-        .bank-label {
-            display: block;
-            font-size: 11px;
-            color: #9ca3af;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: .4px;
-            margin-bottom: 5px;
-        }
+.iban-label {
+    font-size: 11px;
+    color: #888;
+    font-weight: 600;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
 
-        .bank-value {
-            font-size: 15px;
-            font-weight: 700;
-            color: #1f2937;
-            word-break: break-word;
-        }
+.iban {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: .3px;
+    color: #111;
+    word-break: break-all;
+    line-height: 1.55;
+}
 
-        .iban-box {
-            padding: 14px;
-            border-radius: 14px;
-            background: #f3f4f6;
-            border: 1px solid #e5e7eb;
-        }
+/* KOPYALA BUTONU */
 
-        .iban-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 8px;
-        }
+.copy {
+    width: 100%;
+    border: 0;
+    border-radius: 13px;
 
-        .iban-label {
-            font-size: 11px;
-            color: #6b7280;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: .5px;
-        }
+    padding: 14px;
 
-        .copy-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            flex-shrink: 0;
-            border: 0;
-            background: #111827;
-            color: #fff;
-            padding: 8px 11px;
-            border-radius: 9px;
-            font-family: "Poppins", sans-serif;
-            font-size: 11px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all .2s ease;
-        }
+    margin-top: 13px;
 
-        .copy-btn:hover {
-            background: #374151;
-            transform: translateY(-1px);
-        }
+    background: #111;
+    color: #fff;
 
-        .copy-btn.success {
-            background: #16a34a !important;
-            color: #ffffff !important;
-            border-color: #16a34a !important;
-        }
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
 
-        .iban {
-            font-size: 14px;
-            font-weight: 600;
-            color: #111827;
-            word-break: break-all;
-            line-height: 1.6;
-            letter-spacing: .2px;
-        }
+    cursor: pointer;
 
-        .error {
-            margin-top: 30px;
-            background: #fff;
-            padding: 25px;
-            border-radius: 20px;
-            text-align: center;
-        }
+    transition:
+        background .25s ease,
+        transform .15s ease,
+        box-shadow .25s ease;
+}
 
-        small { color: #9ca3af; }
+.copy:active {
+    transform: scale(.98);
+}
 
-        @media (max-width: 420px) {
-            .card { padding: 25px 16px; }
-            .bank-card { padding: 16px; }
-            .iban-top { align-items: flex-start; }
-            .copy-btn { padding: 8px 10px; }
-            .iban { font-size: 13px; }
-        }
+/* KOPYALANDI DURUMU */
 
-        @media (max-width: 350px) {
-            .iban-top {
-                flex-direction: column;
-                gap: 8px;
-            }
+.copy.copied {
+    background: #20a65a !important;
+    color: #fff !important;
 
-            .copy-btn {
-                width: 100%;
-            }
-        }
-    </style>
+    box-shadow: 0 7px 18px rgba(32,166,90,.25);
+}
+
+/* TELEFON */
+
+.phone {
+    width: 100%;
+
+    border-radius: 14px;
+
+    padding: 15px;
+
+    margin-top: 14px;
+
+    background: #ffd400;
+    color: #111;
+
+    font-size: 15px;
+    font-weight: 800;
+
+    display: block;
+    text-decoration: none;
+
+    transition: transform .15s ease, box-shadow .2s ease;
+}
+
+.phone:active {
+    transform: scale(.98);
+}
+
+/* BİLGİ MESAJI */
+
+.message {
+    min-height: 18px;
+    margin-top: 8px;
+
+    color: #20a65a;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* FOOTER */
+
+footer {
+    margin-top: 20px;
+
+    color: #999;
+
+    font-size: 11px;
+    font-weight: 500;
+}
+
+</style>
 </head>
+</body>
+<div class="card">
+    <!-- LOGO -->
+<div class="logo">
+    Yİ
+</div>
 
-<body>
-    <div class="wrap">
-        <div id="content" class="card">
-            Firma bilgileri yükleniyor...
-        </div>
+<!-- BAŞLIK -->
+<h1>Yiğit İletişim</h1>
+
+<!-- INSTAGRAM -->
+<a
+    class="instagram"
+    href="https://instagram.com/ygtmobile"
+    target="_blank"
+    rel="noopener"
+>
+    Instagram: @ygtmobile
+</a>
+
+
+<!-- ALICI -->
+<div class="box">
+
+    <div class="label">
+        Hesap Sahibi
     </div>
 
-    <script>
-        const SUPABASE_URL =
-            "https://tqsoknbsxyjhtsguncqa.supabase.co";
+    <div class="value">
+        Kemal Sütiçen
+    </div>
 
-        const SUPABASE_ANON_KEY =
-            "sb_publishable_FHGDhQ9yldxGbLAbcImPoQ_KQHEebBx";
+</div>
 
-        const supabaseClient =
-            window.supabase.createClient(
-                SUPABASE_URL,
-                SUPABASE_ANON_KEY
-            );
 
-        function esc(v) {
-            return String(v ?? "").replace(
-                /[&<>"']/g,
-                m => ({
-                    "&": "&amp;",
-                    "<": "&lt;",
-                    ">": "&gt;",
-                    '"': "&quot;",
-                    "'": "&#039;"
-                }[m])
-            );
-        }
+<!-- ÖDEME -->
+<div class="box">
 
-        function url(v) {
-            if (!v) return "";
-            return /^https?:\/\//i.test(v)
-                ? v
-                : "https://" + v;
-        }
+    <div class="payment-title">
 
-        function whatsapp(v) {
-            if (!v) return "";
+        <div class="payment-icon">
+            ₺
+        </div>
 
-            let n = String(v).replace(/\D/g, "");
+        <span>
+            Ödeme Bilgileri
+        </span>
 
-            if (n.startsWith("0"))
-                n = "90" + n.slice(1);
+    </div>
 
-            if (!n.startsWith("90"))
-                n = "90" + n;
 
-            return "https://wa.me/" + n;
-        }
+    <div class="iban-area">
 
-        async function copyIBAN(iban, button) {
+        <div class="iban-label">
+            IBAN
+        </div>
 
-            // Görsel durumu anında değiştir
-            button.style.setProperty("background-color", "#16a34a", "important");
-            button.style.setProperty("color", "#ffffff", "important");
+        <div class="iban" id="ibanText">
+            TR07 0015 7000 0000 0061 8501 99
+        </div>
+
+
+        <button
+            class="copy"
+            id="copyButton"
+            type="button"
+            onclick="copyIBAN()"
+        >
+            IBAN Kopyala
+        </button>
+
+        <div
+            class="message"
+            id="message"
+            aria-live="polite"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<!-- TELEFON -->
+<a
+    class="phone"
+    href="tel:+905012966196"
+>
+    0501 296 61 96 — Ara
+</a>
+
+
+<!-- FOOTER -->
+<footer>
+    Yiğit İletişim
+</footer>
+    </div>
+<script>
+
+function copyIBAN() {
+
+    const iban =
+        "TR070015700000000061850199";
+
+    const button =
+        document.getElementById("copyButton");
+
+    const message =
+        document.getElementById("message");
+
+
+    function copiedSuccessfully() {
+
+        button.classList.add("copied");
+
+        button.innerHTML =
+            "✓ Kopyalandı";
+
+        message.textContent =
+            "IBAN panoya kopyalandı.";
+
+        setTimeout(function() {
+
+            button.classList.remove("copied");
+
             button.innerHTML =
-                '<i class="fa-solid fa-check"></i> Kopyalandı';
+                "IBAN Kopyala";
 
-            try {
-                if (navigator.clipboard && window.isSecureContext) {
-                    await navigator.clipboard.writeText(iban);
-                } else {
-                    const textarea = document.createElement("textarea");
-                    textarea.value = iban;
-                    textarea.style.position = "fixed";
-                    textarea.style.left = "-9999px";
-                    textarea.style.top = "0";
-                    document.body.appendChild(textarea);
-                    textarea.focus();
-                    textarea.select();
-                    document.execCommand("copy");
-                    textarea.remove();
-                }
-            } catch (error) {
-                console.log("IBAN kopyalama hatası:", error);
+            message.textContent =
+                "";
+
+        }, 2000);
+    }
+
+
+    /* MODERN KOPYALAMA */
+
+    if (
+        navigator.clipboard &&
+        window.isSecureContext
+    ) {
+
+        navigator.clipboard
+            .writeText(iban)
+            .then(function() {
+
+                copiedSuccessfully();
+
+            })
+            .catch(function() {
+
+                fallbackCopy();
+
+            });
+
+    } else {
+
+        fallbackCopy();
+
+    }
+
+
+    /* ESKİ TARAYICILAR İÇİN */
+
+    function fallbackCopy() {
+
+        const input =
+            document.createElement("textarea");
+
+        input.value = iban;
+
+        input.style.position =
+            "fixed";
+
+        input.style.opacity =
+            "0";
+
+        document.body.appendChild(input);
+
+        input.focus();
+
+        input.select();
+
+        try {
+
+            const successful =
+                document.execCommand("copy");
+
+            if (successful) {
+
+                copiedSuccessfully();
+
+            } else {
+
+                message.textContent =
+                    "Kopyalama başarısız. IBAN'ı seçerek kopyalayabilirsiniz.";
+
             }
 
-            setTimeout(function () {
-                button.style.removeProperty("background-color");
-                button.style.removeProperty("color");
-                button.innerHTML =
-                    '<i class="fa-regular fa-copy"></i> Kopyala';
-            }, 2000);
+        } catch (error) {
+
+            message.textContent =
+                "Kopyalama başarısız. IBAN'ı seçerek kopyalayabilirsiniz.";
+
         }
 
-        async function load() {
-            const slug =
-                new URLSearchParams(location.search).get("firma");
+        document.body.removeChild(input);
 
-            const box =
-                document.getElementById("content");
+    }
 
-            if (!slug) {
-                box.innerHTML = `
-                    <div class="error">
-                        <h2>Firma bulunamadı</h2>
-                        <p>Geçerli bir firma bağlantısı bulunmuyor.</p>
-                    </div>
-                `;
-                return;
-            }
+}
 
-            const { data, error } =
-                await supabaseClient
-                    .from("firmalar")
-                    .select(`
-                        firma_adi,
-                        slug,
-                        telefon,
-                        whatsapp,
-                        instagram,
-                        google_maps,
-                        web_sitesi,
-                        logo_url,
-                        alici,
-                        iban
-                    `)
-                    .eq("slug", slug)
-                    .eq("aktif", true)
-                    .maybeSingle();
-
-            if (error || !data) {
-                box.innerHTML = `
-                    <div class="error">
-                        <h2>Firma bulunamadı</h2>
-                        <p>
-                            Bu firma bağlantısı aktif değil
-                            veya mevcut değil.
-                        </p>
-                        <small>${esc(slug)}</small>
-                    </div>
-                `;
-                return;
-            }
-
-            document.title = data.firma_adi || "Firma Kartı";
-
-            let buttons = "";
-
-            if (data.telefon) {
-                const tel =
-                    String(data.telefon).replace(/\s+/g, "");
-
-                buttons += `
-                    <a class="phone" href="tel:${esc(tel)}">
-                        <i class="fa-solid fa-phone"></i>
-                        <span>Ara</span>
-                    </a>
-                `;
-            }
-
-            if (data.whatsapp) {
-                buttons += `
-                    <a
-                        class="whatsapp"
-                        href="${esc(whatsapp(data.whatsapp))}"
-                        target="_blank"
-                        rel="noopener"
-                    >
-                        <i class="fa-brands fa-whatsapp"></i>
-                        <span>WhatsApp</span>
-                    </a>
-                `;
-            }
-
-            if (data.instagram) {
-                buttons += `
-                    <a
-                        class="instagram"
-                        href="${esc(url(data.instagram))}"
-                        target="_blank"
-                        rel="noopener"
-                    >
-                        <i class="fa-brands fa-instagram"></i>
-                        <span>Instagram</span>
-                    </a>
-                `;
-            }
-
-            if (data.google_maps) {
-                buttons += `
-                    <a
-                        class="maps"
-                        href="${esc(url(data.google_maps))}"
-                        target="_blank"
-                        rel="noopener"
-                    >
-                        <i class="fa-solid fa-location-dot"></i>
-                        <span>Google Maps</span>
-                    </a>
-                `;
-            }
-
-            if (data.web_sitesi) {
-                buttons += `
-                    <a
-                        class="web"
-                        href="${esc(url(data.web_sitesi))}"
-                        target="_blank"
-                        rel="noopener"
-                    >
-                        <i class="fa-solid fa-globe"></i>
-                        <span>Web Sitesi</span>
-                    </a>
-                `;
-            }
-
-            const logo = data.logo_url
-                ? `
-                    <img
-                        class="logo"
-                        src="${esc(url(data.logo_url))}"
-                        alt="${esc(data.firma_adi)}"
-                        onerror="this.style.display='none'"
-                    >
-                  `
-                : "";
-
-            let bank = "";
-
-            if (data.alici || data.iban) {
-                bank = `
-                    <div class="bank-card">
-
-                        <div class="bank-title">
-
-                            <div class="bank-title-icon">
-                                <i class="fa-solid fa-building-columns"></i>
-                            </div>
-
-                            <div class="bank-title-text">
-                                <div class="bank-title-main">
-                                    Ödeme Bilgileri
-                                </div>
-
-                                <div class="bank-title-sub">
-                                    Havale / EFT için kullanabilirsiniz
-                                </div>
-                            </div>
-
-                        </div>
-
-                        ${
-                            data.alici
-                            ? `
-                                <div class="account-info">
-
-                                    <span class="bank-label">
-                                        Alıcı / Hesap Sahibi
-                                    </span>
-
-                                    <div class="bank-value">
-                                        ${esc(data.alici)}
-                                    </div>
-
-                                </div>
-                              `
-                            : ""
-                        }
-
-                        ${
-                            data.iban
-                            ? `
-                                <div class="iban-box">
-
-                                    <div class="iban-top">
-
-                                        <span class="iban-label">
-                                            IBAN
-                                        </span>
-
-                                        <button
-                                            type="button"
-                                            class="copy-btn"
-                                            onclick="copyIBAN(
-                                                ${JSON.stringify(data.iban)},
-                                                this
-                                            )"
-                                        >
-                                            <i class="fa-regular fa-copy"></i>
-                                            Kopyala
-                                        </button>
-
-                                    </div>
-
-                                    <div class="iban">
-                                        ${esc(data.iban)}
-                                    </div>
-
-                                </div>
-                              `
-                            : ""
-                        }
-
-                    </div>
-                `;
-            }
-
-            box.innerHTML = `
-                ${logo}
-
-                <h1>
-                    ${esc(data.firma_adi)}
-                </h1>
-
-                <div class="sub">
-                    Dijital Firma Kartı
-                </div>
-
-                <div class="buttons">
-                    ${buttons}
-                </div>
-
-                ${bank}
-            `;
-        }
-
-        load();
-    </script>
+</script>
 </body>
 </html>
+:::
+
