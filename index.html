@@ -1,107 +1,868 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Firma Kartı</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
-*{box-sizing:border-box}
-body{margin:0;min-height:100vh;font-family:Arial,sans-serif;background:linear-gradient(135deg,#eef2ff,#f8fafc);color:#111827}
-.wrap{max-width:520px;margin:0 auto;padding:25px 16px 40px}
-.card{background:#fff;border-radius:24px;padding:28px 20px;box-shadow:0 12px 35px #00000012;text-align:center}
-.logo{width:105px;height:105px;border-radius:50%;object-fit:cover;border:4px solid #fff;box-shadow:0 5px 20px #0002;background:#f3f4f6}
-h1{margin:18px 0 8px;font-size:28px}
-.sub{color:#6b7280;margin-bottom:22px}
-.buttons{display:grid;gap:11px}
-a{display:block;text-decoration:none;padding:14px;border-radius:13px;font-weight:700;background:#111827;color:white}
-a.whatsapp{background:#16a34a}
-a.instagram{background:#db2777}
-a.maps{background:#2563eb}
-a.web{background:#7c3aed}
-a.phone{background:#374151}
-.error{margin-top:30px;background:#fff;padding:25px;border-radius:20px;text-align:center}
-small{color:#9ca3af}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firma Kartı</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(135deg, #eef2ff, #f8fafc);
+            color: #111827;
+        }
+
+        .wrap {
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 25px 16px 40px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 24px;
+            padding: 30px 20px;
+            box-shadow: 0 12px 35px #00000012;
+            text-align: center;
+        }
+
+        .logo {
+            width: 105px;
+            height: 105px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #fff;
+            box-shadow: 0 5px 20px #0002;
+            background: #f3f4f6;
+        }
+
+        h1 {
+            margin: 18px 0 6px;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .sub {
+            color: #6b7280;
+            margin-bottom: 24px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .buttons {
+            display: grid;
+            gap: 11px;
+        }
+
+        a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+            padding: 14px;
+            border-radius: 13px;
+            font-size: 15px;
+            font-weight: 600;
+            color: white;
+            transition: transform .15s ease, opacity .15s ease;
+        }
+
+        a:hover {
+            transform: translateY(-2px);
+            opacity: .94;
+        }
+
+        a i {
+            font-size: 19px;
+        }
+
+        a.phone {
+            background: #374151;
+        }
+
+        a.whatsapp {
+            background: #25D366;
+        }
+
+        a.instagram {
+            background: linear-gradient(
+                45deg,
+                #f58529,
+                #dd2a7b,
+                #8134af,
+                #515bd4
+            );
+        }
+
+        a.maps {
+            background: #2563eb;
+        }
+
+        a.web {
+            background: #7c3aed;
+        }
+
+        .bank-card {
+            margin-top: 22px;
+            padding: 20px;
+            border-radius: 20px;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, .07);
+            text-align: left;
+        }
+
+        .bank-title {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eef0f3;
+        }
+
+        .bank-title-icon {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: #ecfdf5;
+            color: #16a34a;
+            flex-shrink: 0;
+        }
+
+        .bank-title-icon i {
+            font-size: 19px;
+        }
+
+        .bank-title-text {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .bank-title-main {
+            font-size: 17px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .bank-title-sub {
+            font-size: 11px;
+            color: #9ca3af;
+            font-weight: 500;
+        }
+
+        .account-info {
+            margin-bottom: 15px;
+        }
+
+        .bank-label {
+            display: block;
+            font-size: 11px;
+            color: #9ca3af;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+            margin-bottom: 5px;
+        }
+
+        .bank-value {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1f2937;
+            word-break: break-word;
+        }
+
+        .iban-box {
+            padding: 14px;
+            border-radius: 14px;
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+        }
+
+        .iban-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .iban-label {
+            font-size: 11px;
+            color: #6b7280;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        .copy-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            flex-shrink: 0;
+            border: 0;
+            background: #111827;
+            color: #fff;
+            padding: 8px 11px;
+            border-radius: 9px;
+            font-family: "Poppins", sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition:
+                background-color .25s ease,
+                color .25s ease,
+                transform .15s ease,
+                box-shadow .25s ease;
+        }
+
+        .copy-btn:hover {
+            background: #374151;
+            transform: translateY(-1px);
+        }
+
+        .copy-btn.success {
+            background: #16a34a !important;
+            color: #ffffff !important;
+            box-shadow: 0 5px 15px rgba(22, 163, 74, .25);
+        }
+
+        .iban {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111827;
+            word-break: break-all;
+            line-height: 1.6;
+            letter-spacing: .2px;
+        }
+
+        .error {
+            margin-top: 30px;
+            background: #fff;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        small {
+            color: #9ca3af;
+        }
+
+        @media (max-width: 420px) {
+            .card {
+                padding: 25px 16px;
+            }
+
+            .bank-card {
+                padding: 16px;
+            }
+
+            .iban-top {
+                align-items: flex-start;
+            }
+
+            .copy-btn {
+                padding: 8px 10px;
+            }
+
+            .iban {
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 350px) {
+            .iban-top {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .copy-btn {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
+
 <body>
+
 <div class="wrap">
-  <div id="content" class="card">Firma bilgileri yükleniyor...</div>
+
+    <div id="content" class="card">
+        Firma bilgileri yükleniyor...
+    </div>
+
 </div>
 
 <script>
-const SUPABASE_URL = "https://tqsoknbsxyjhtsguncqa.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_FHGDhQ9yldxGbLAbcImPoQ_KQHEebBx";
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-function esc(v){
-  return String(v ?? "").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+const SUPABASE_URL =
+    "https://tqsoknbsxyjhtsguncqa.supabase.co";
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_FHGDhQ9yldxGbLAbcImPoQ_KQHEebBx";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+function esc(v) {
+
+    return String(v ?? "").replace(
+        /[&<>"']/g,
+        m => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        }[m])
+    );
+
 }
-function url(v){
-  if(!v) return "";
-  return /^https?:\/\//i.test(v) ? v : "https://" + v;
+
+
+function url(v) {
+
+    if (!v) return "";
+
+    return /^https?:\/\//i.test(v)
+        ? v
+        : "https://" + v;
+
 }
-function whatsapp(v){
-  if(!v) return "";
-  let n=String(v).replace(/\D/g,"");
-  if(n.startsWith("0")) n="90"+n.slice(1);
-  if(!n.startsWith("90")) n="90"+n;
-  return "https://wa.me/"+n;
+
+
+function whatsapp(v) {
+
+    if (!v) return "";
+
+    let n =
+        String(v).replace(/\D/g, "");
+
+    if (n.startsWith("0"))
+        n = "90" + n.slice(1);
+
+    if (!n.startsWith("90"))
+        n = "90" + n;
+
+    return "https://wa.me/" + n;
+
 }
 
-async function load(){
-  const slug=new URLSearchParams(location.search).get("firma");
-  const box=document.getElementById("content");
 
-  if(!slug){
-    box.innerHTML='<div class="error"><h2>Firma bulunamadı</h2><p>Geçerli bir firma bağlantısı bulunmuyor.</p></div>';
-    return;
-  }
+/* =====================================================
+   IBAN KOPYALAMA
+   ===================================================== */
 
-  const {data,error}=await supabaseClient
-    .from("firmalar")
-    .select("firma_adi,slug,telefon,whatsapp,instagram,google_maps,web_sitesi,logo_url")
-    .eq("slug",slug)
-    .eq("aktif",true)
-    .maybeSingle();
+async function copyIBAN(iban, button) {
 
-  if(error || !data){
-    box.innerHTML='<div class="error"><h2>Firma bulunamadı</h2><p>Bu firma bağlantısı aktif değil veya mevcut değil.</p><small>'+esc(slug)+'</small></div>';
-    return;
-  }
+    const originalHTML =
+        '<i class="fa-regular fa-copy"></i> Kopyala';
 
-  document.title=data.firma_adi || "Firma Kartı";
+    const successHTML =
+        '<i class="fa-solid fa-check"></i> Kopyalandı';
 
-  let buttons="";
-  if(data.telefon){
-    const tel=String(data.telefon).replace(/\s+/g,"");
-    buttons+=`<a class="phone" href="tel:${esc(tel)}">📞 Telefon</a>`;
-  }
-  if(data.whatsapp){
-    buttons+=`<a class="whatsapp" href="${esc(whatsapp(data.whatsapp))}" target="_blank" rel="noopener">💬 WhatsApp</a>`;
-  }
-  if(data.instagram){
-    buttons+=`<a class="instagram" href="${esc(url(data.instagram))}" target="_blank" rel="noopener">📸 Instagram</a>`;
-  }
-  if(data.google_maps){
-    buttons+=`<a class="maps" href="${esc(url(data.google_maps))}" target="_blank" rel="noopener">📍 Google Maps</a>`;
-  }
-  if(data.web_sitesi){
-    buttons+=`<a class="web" href="${esc(url(data.web_sitesi))}" target="_blank" rel="noopener">🌐 Web Sitesi</a>`;
-  }
 
-  const logo=data.logo_url
-    ? `<img class="logo" src="${esc(url(data.logo_url))}" alt="${esc(data.firma_adi)}" onerror="this.style.display='none'">`
-    : "";
+    button.classList.add("success");
 
-  box.innerHTML=`
-    ${logo}
-    <h1>${esc(data.firma_adi)}</h1>
-    <div class="sub">Dijital Firma Kartı</div>
-    <div class="buttons">${buttons}</div>
-  `;
+    button.innerHTML =
+        successHTML;
+
+
+    try {
+
+        if (
+            navigator.clipboard &&
+            window.isSecureContext
+        ) {
+
+            await navigator.clipboard.writeText(
+                String(iban)
+            );
+
+        } else {
+
+            const textarea =
+                document.createElement("textarea");
+
+            textarea.value =
+                String(iban);
+
+            textarea.setAttribute(
+                "readonly",
+                ""
+            );
+
+            textarea.style.position =
+                "fixed";
+
+            textarea.style.left =
+                "-9999px";
+
+            textarea.style.top =
+                "0";
+
+            document.body.appendChild(
+                textarea
+            );
+
+            textarea.focus();
+            textarea.select();
+
+            textarea.setSelectionRange(
+                0,
+                textarea.value.length
+            );
+
+            document.execCommand("copy");
+
+            textarea.remove();
+        }
+
+    } catch (error) {
+
+        console.log(
+            "IBAN kopyalama hatası:",
+            error
+        );
+
+    }
+
+
+    setTimeout(function() {
+
+        button.classList.remove(
+            "success"
+        );
+
+        button.innerHTML =
+            originalHTML;
+
+    }, 2000);
+
 }
+
+
+/* =====================================================
+   FİRMA BİLGİLERİ
+   ===================================================== */
+
+async function load() {
+
+    const slug =
+        new URLSearchParams(
+            location.search
+        ).get("firma");
+
+
+    const box =
+        document.getElementById(
+            "content"
+        );
+
+
+    if (!slug) {
+
+        box.innerHTML = `
+            <div class="error">
+                <h2>Firma bulunamadı</h2>
+                <p>
+                    Geçerli bir firma bağlantısı bulunmuyor.
+                </p>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    const { data, error } =
+        await supabaseClient
+            .from("firmalar")
+            .select(`
+                firma_adi,
+                slug,
+                telefon,
+                whatsapp,
+                instagram,
+                google_maps,
+                web_sitesi,
+                logo_url,
+                alici,
+                iban
+            `)
+            .eq("slug", slug)
+            .eq("aktif", true)
+            .maybeSingle();
+
+
+    if (error || !data) {
+
+        box.innerHTML = `
+            <div class="error">
+
+                <h2>
+                    Firma bulunamadı
+                </h2>
+
+                <p>
+                    Bu firma bağlantısı aktif değil
+                    veya mevcut değil.
+                </p>
+
+                <small>
+                    ${esc(slug)}
+                </small>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    document.title =
+        data.firma_adi ||
+        "Firma Kartı";
+
+
+    let buttons = "";
+
+
+    /* TELEFON */
+
+    if (data.telefon) {
+
+        const tel =
+            String(data.telefon)
+                .replace(/\s+/g, "");
+
+        buttons += `
+
+            <a
+                class="phone"
+                href="tel:${esc(tel)}"
+            >
+
+                <i class="fa-solid fa-phone"></i>
+
+                <span>
+                    Ara
+                </span>
+
+            </a>
+
+        `;
+
+    }
+
+
+    /* WHATSAPP */
+
+    if (data.whatsapp) {
+
+        buttons += `
+
+            <a
+                class="whatsapp"
+                href="${esc(
+                    whatsapp(data.whatsapp)
+                )}"
+                target="_blank"
+                rel="noopener"
+            >
+
+                <i class="fa-brands fa-whatsapp"></i>
+
+                <span>
+                    WhatsApp
+                </span>
+
+            </a>
+
+        `;
+
+    }
+
+
+    /* INSTAGRAM */
+
+    if (data.instagram) {
+
+        buttons += `
+
+            <a
+                class="instagram"
+                href="${esc(
+                    url(data.instagram)
+                )}"
+                target="_blank"
+                rel="noopener"
+            >
+
+                <i class="fa-brands fa-instagram"></i>
+
+                <span>
+                    Instagram
+                </span>
+
+            </a>
+
+        `;
+
+    }
+
+
+    /* GOOGLE MAPS */
+
+    if (data.google_maps) {
+
+        buttons += `
+
+            <a
+                class="maps"
+                href="${esc(
+                    url(data.google_maps)
+                )}"
+                target="_blank"
+                rel="noopener"
+            >
+
+                <i class="fa-solid fa-location-dot"></i>
+
+                <span>
+                    Google Maps
+                </span>
+
+            </a>
+
+        `;
+
+    }
+
+
+    /* WEB SİTESİ */
+
+    if (data.web_sitesi) {
+
+        buttons += `
+
+            <a
+                class="web"
+                href="${esc(
+                    url(data.web_sitesi)
+                )}"
+                target="_blank"
+                rel="noopener"
+            >
+
+                <i class="fa-solid fa-globe"></i>
+
+                <span>
+                    Web Sitesi
+                </span>
+
+            </a>
+
+        `;
+
+    }
+
+
+    /* LOGO */
+
+    const logo =
+        data.logo_url
+        ? `
+
+            <img
+                class="logo"
+                src="${esc(
+                    url(data.logo_url)
+                )}"
+                alt="${esc(
+                    data.firma_adi
+                )}"
+                onerror="
+                    this.style.display='none'
+                "
+            >
+
+          `
+        : "";
+
+
+    /* ÖDEME */
+
+    let bank = "";
+
+
+    if (
+        data.alici ||
+        data.iban
+    ) {
+
+        bank = `
+
+            <div class="bank-card">
+
+                <div class="bank-title">
+
+                    <div class="bank-title-icon">
+
+                        <i class="
+                            fa-solid
+                            fa-building-columns
+                        "></i>
+
+                    </div>
+
+
+                    <div class="bank-title-text">
+
+                        <div class="bank-title-main">
+                            Ödeme Bilgileri
+                        </div>
+
+                        <div class="bank-title-sub">
+                            Havale / EFT için kullanabilirsiniz
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                ${
+                    data.alici
+                    ? `
+
+                        <div class="account-info">
+
+                            <span class="bank-label">
+                                Alıcı / Hesap Sahibi
+                            </span>
+
+                            <div class="bank-value">
+                                ${esc(data.alici)}
+                            </div>
+
+                        </div>
+
+                      `
+                    : ""
+                }
+
+
+                ${
+                    data.iban
+                    ? `
+
+                        <div class="iban-box">
+
+                            <div class="iban-top">
+
+                                <span class="iban-label">
+                                    IBAN
+                                </span>
+
+
+                                <button
+                                    type="button"
+                                    class="copy-btn"
+                                    onclick="copyIBAN(
+                                        ${JSON.stringify(data.iban)},
+                                        this
+                                    )"
+                                >
+
+                                    <i class="
+                                        fa-regular
+                                        fa-copy
+                                    "></i>
+
+                                    Kopyala
+
+                                </button>
+
+                            </div>
+
+
+                            <div class="iban">
+                                ${esc(data.iban)}
+                            </div>
+
+                        </div>
+
+                      `
+                    : ""
+                }
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* SAYFAYI OLUŞTUR */
+
+    box.innerHTML = `
+
+        ${logo}
+
+        <h1>
+            ${esc(data.firma_adi)}
+        </h1>
+
+
+        <div class="sub">
+            Dijital Firma Kartı
+        </div>
+
+
+        <div class="buttons">
+
+            ${buttons}
+
+        </div>
+
+
+        ${bank}
+
+    `;
+
+}
+
+
 load();
+
 </script>
+
 </body>
 </html>
