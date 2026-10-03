@@ -1,472 +1,706 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Firma Admin Paneli</title>
 
-    <title>Firma Kartı</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-    <!-- Poppins Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <!-- Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: "Poppins", sans-serif;
-            background: linear-gradient(135deg, #eef2ff, #f8fafc);
-            color: #111827;
-        }
-
-        .wrap {
-            max-width: 520px;
-            margin: 0 auto;
-            padding: 25px 16px 40px;
-        }
-
-        .card {
-            background: #ffffff;
-            border-radius: 24px;
-            padding: 30px 20px;
-            box-shadow: 0 12px 35px #00000012;
-            text-align: center;
-        }
-
-        .logo {
-            width: 105px;
-            height: 105px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #fff;
-            box-shadow: 0 5px 20px #0002;
-            background: #f3f4f6;
-        }
-
-        h1 {
-            margin: 18px 0 6px;
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-
-        .sub {
-            color: #6b7280;
-            margin-bottom: 24px;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .buttons {
-            display: grid;
-            gap: 11px;
-        }
-
-        a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-
-            text-decoration: none;
-            padding: 14px;
-
-            border-radius: 13px;
-
-            font-size: 15px;
-            font-weight: 600;
-
-            color: white;
-
-            transition:
-                transform 0.15s ease,
-                opacity 0.15s ease;
-        }
-
-        a:hover {
-            transform: translateY(-2px);
-            opacity: 0.94;
-        }
-
-        a i {
-            font-size: 19px;
-        }
-
-        /* Telefon */
-        a.phone {
-            background: #374151;
-        }
-
-        /* WhatsApp */
-        a.whatsapp {
-            background: #25D366;
-        }
-
-        /* Instagram */
-        a.instagram {
-            background: linear-gradient(
-                45deg,
-                #f58529,
-                #dd2a7b,
-                #8134af,
-                #515bd4
-            );
-        }
-
-        /* Google Maps */
-        a.maps {
-            background: #2563eb;
-        }
-
-        /* Web */
-        a.web {
-            background: #7c3aed;
-        }
-
-        .error {
-            margin-top: 30px;
-            background: #fff;
-            padding: 25px;
-            border-radius: 20px;
-            text-align: center;
-        }
-
-        small {
-            color: #9ca3af;
-        }
-
-    </style>
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f3f4f6;
+    color:#111827
+}
+header{
+    background:#111827;
+    color:#fff;
+    padding:16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center
+}
+.wrap{
+    max-width:1000px;
+    margin:20px auto;
+    padding:0 14px
+}
+.card{
+    background:#fff;
+    padding:20px;
+    border-radius:16px;
+    margin-bottom:18px;
+    box-shadow:0 3px 14px #0001
+}
+input{
+    width:100%;
+    padding:12px;
+    border:1px solid #d1d5db;
+    border-radius:9px;
+    margin:5px 0 12px
+}
+button{
+    border:0;
+    border-radius:9px;
+    padding:11px 14px;
+    font-weight:700;
+    cursor:pointer
+}
+.green{
+    background:#16a34a;
+    color:#fff
+}
+.gray{
+    background:#e5e7eb
+}
+.red{
+    background:#dc2626;
+    color:#fff
+}
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px
+}
+@media(max-width:700px){
+    .grid{
+        grid-template-columns:1fr
+    }
+}
+.row{
+    border:1px solid #e5e7eb;
+    border-radius:12px;
+    padding:14px;
+    margin:10px 0;
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    align-items:center
+}
+.actions{
+    display:flex;
+    gap:7px;
+    flex-wrap:wrap
+}
+.msg{
+    padding:10px;
+    border-radius:9px;
+    margin:10px 0
+}
+.ok{
+    background:#dcfce7;
+    color:#166534
+}
+.err{
+    background:#fee2e2;
+    color:#991b1b
+}
+.hide{
+    display:none
+}
+.muted{
+    color:#6b7280;
+    font-size:13px
+}
+.section-title{
+    grid-column:1/-1;
+    margin-top:8px;
+    margin-bottom:-4px;
+    padding-top:10px;
+    border-top:1px solid #e5e7eb;
+}
+</style>
 </head>
 
 <body>
 
-    <div class="wrap">
+<div id="login" class="card" style="max-width:430px;margin:55px auto">
 
-        <div id="content" class="card">
-            Firma bilgileri yükleniyor...
+<h2>🔐 Admin Girişi</h2>
+
+<div id="loginMsg"></div>
+
+<label>E-posta</label>
+<input id="email" type="email">
+
+<label>Şifre</label>
+<input id="password" type="password">
+
+<button class="green" onclick="login()">Giriş Yap</button>
+
+</div>
+
+
+<div id="app" class="hide">
+
+<header>
+<b>🏢 Firma Yönetim Paneli</b>
+<button class="gray" onclick="logout()">Çıkış</button>
+</header>
+
+<div class="wrap">
+
+<div id="msg"></div>
+
+
+<div class="card">
+
+<h2 id="title">Yeni Firma</h2>
+
+<div class="grid">
+
+<div>
+<label>Firma adı *</label>
+<input id="firma_adi" oninput="autoSlug()">
+</div>
+
+<div>
+<label>Slug *</label>
+<input id="slug">
+<div class="muted">Örn: yener-iletisim</div>
+</div>
+
+<div>
+<label>Telefon</label>
+<input id="telefon">
+</div>
+
+<div>
+<label>WhatsApp</label>
+<input id="whatsapp" placeholder="905001234567">
+</div>
+
+<div>
+<label>Instagram</label>
+<input id="instagram" placeholder="https://instagram.com/...">
+</div>
+
+<div>
+<label>Google Maps</label>
+<input id="google_maps">
+</div>
+
+<div>
+<label>Web sitesi</label>
+<input id="web_sitesi">
+</div>
+
+<div>
+<label>Logo URL</label>
+<input id="logo_url">
+</div>
+
+
+<div class="section-title">
+<h3>🏦 Banka / Ödeme Bilgileri</h3>
+</div>
+
+<div>
+<label>Alıcı / Hesap Sahibi</label>
+<input id="alici" placeholder="Örn: Yener İletişim">
+</div>
+
+<div>
+<label>IBAN</label>
+<input id="iban" placeholder="TR00 0000 0000 0000 0000 0000 00">
+</div>
+
+</div>
+
+
+<label>
+<input id="aktif" type="checkbox" checked style="width:auto">
+Firma aktif
+</label>
+
+<div class="actions">
+
+<button class="green" onclick="save()">
+💾 Kaydet
+</button>
+
+<button class="gray" onclick="clearForm()">
+Temizle
+</button>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>📋 Firmalar</h2>
+
+<div id="list">
+Yükleniyor...
+</div>
+
+</div>
+
+
+<div id="qrCard" class="card hide">
+
+<h2>📲 QR Kod</h2>
+
+<p id="qrLink"></p>
+
+<div id="qr"></div>
+
+<br>
+
+<button class="green" onclick="downloadQR()">
+QR'ı indir
+</button>
+
+</div>
+
+</div>
+</div>
+
+
+<script>
+
+const SUPABASE_URL="https://tqsoknbsxyjhtsguncqa.supabase.co";
+
+const SUPABASE_ANON_KEY="sb_publishable_FHGDhQ9yldxGbLAbcImPoQ_KQHEebBx";
+
+let sb,editingId=null,currentQR="";
+
+const $=id=>document.getElementById(id);
+
+
+function note(t,ok=false){
+
+    $('msg').className='msg '+(ok?'ok':'err');
+
+    $('msg').textContent=t;
+
+}
+
+
+function slugify(s){
+
+    return s
+    .toLowerCase()
+    .replace(/ğ/g,'g')
+    .replace(/ü/g,'u')
+    .replace(/ş/g,'s')
+    .replace(/ı/g,'i')
+    .replace(/ö/g,'o')
+    .replace(/ç/g,'c')
+    .replace(/[^a-z0-9]+/g,'-')
+    .replace(/^-|-$/g,'');
+
+}
+
+
+function autoSlug(){
+
+    if(!editingId)
+
+        $('slug').value=slugify($('firma_adi').value);
+
+}
+
+
+function base(){
+
+    return location.origin+
+    location.pathname.replace(/admin\.html$/i,'');
+
+}
+
+
+function firmaUrl(slug){
+
+    return base()+
+    '?firma='+
+    encodeURIComponent(slug);
+
+}
+
+
+async function init(){
+
+    if(
+        SUPABASE_URL.includes('BURAYA_') ||
+        SUPABASE_ANON_KEY.includes('BURAYA_')
+    ){
+
+        $('loginMsg').className='msg err';
+
+        $('loginMsg').textContent=
+        'admin.html içindeki Supabase bilgilerini doldurmanız gerekiyor.';
+
+        return;
+
+    }
+
+    sb=window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+    let r=await sb.auth.getSession();
+
+    if(r.data.session)
+
+        open();
+
+    sb.auth.onAuthStateChange(
+        (_e,s)=>s?open():close()
+    );
+
+}
+
+
+async function login(){
+
+    let r=await sb.auth.signInWithPassword({
+
+        email:$('email').value.trim(),
+
+        password:$('password').value
+
+    });
+
+    if(r.error){
+
+        $('loginMsg').className='msg err';
+
+        $('loginMsg').textContent=r.error.message;
+
+    }
+
+}
+
+
+async function logout(){
+
+    await sb.auth.signOut();
+
+}
+
+
+function open(){
+
+    $('login').classList.add('hide');
+
+    $('app').classList.remove('hide');
+
+    load();
+
+}
+
+
+function close(){
+
+    $('app').classList.add('hide');
+
+    $('login').classList.remove('hide');
+
+}
+
+
+async function load(){
+
+    let r=await sb
+    .from('firmalar')
+    .select('*')
+    .order('created_at',{ascending:false});
+
+    if(r.error){
+
+        note(r.error.message);
+
+        return;
+
+    }
+
+    if(!r.data.length){
+
+        $('list').innerHTML='<p>Henüz firma yok.</p>';
+
+        return;
+
+    }
+
+    $('list').innerHTML=r.data.map(f=>`
+
+        <div class="row">
+
+            <div>
+
+                <b>${esc(f.firma_adi||'İsimsiz')}</b>
+
+                <div class="muted">
+
+                    ${esc(f.slug||'')}
+                    ·
+                    ${f.aktif?'🟢 Aktif':'🔴 Pasif'}
+
+                </div>
+
+            </div>
+
+            <div class="actions">
+
+                <button
+                    class="gray"
+                    onclick='edit(${JSON.stringify(f)})'>
+                    ✏️ Düzenle
+                </button>
+
+                <button
+                    class="gray"
+                    onclick='qr(${JSON.stringify(f.slug||'')})'>
+                    📲 QR
+                </button>
+
+                <button
+                    class="red"
+                    onclick='del(${JSON.stringify(f.id)})'>
+                    Sil
+                </button>
+
+            </div>
+
         </div>
 
-    </div>
+    `).join('');
 
+}
 
-    <script>
 
-        const SUPABASE_URL =
-            "https://tqsoknbsxyjhtsguncqa.supabase.co";
+function edit(f){
 
-        const SUPABASE_ANON_KEY =
-            "sb_publishable_FHGDhQ9yldxGbLAbcImPoQ_KQHEebBx";
+    editingId=f.id;
 
-        const supabaseClient =
-            window.supabase.createClient(
-                SUPABASE_URL,
-                SUPABASE_ANON_KEY
-            );
+    $('title').textContent='Firma Düzenle';
 
+    [
 
-        function esc(v) {
+        'firma_adi',
+        'slug',
+        'telefon',
+        'whatsapp',
+        'instagram',
+        'google_maps',
+        'web_sitesi',
+        'logo_url',
+        'alici',
+        'iban'
 
-            return String(v ?? "").replace(
-                /[&<>"']/g,
-                m => ({
-                    "&": "&amp;",
-                    "<": "&lt;",
-                    ">": "&gt;",
-                    '"': "&quot;",
-                    "'": "&#039;"
-                }[m])
-            );
+    ].forEach(k=>{
 
-        }
+        $(k).value=f[k]||'';
 
+    });
 
-        function url(v) {
+    $('aktif').checked=!!f.aktif;
 
-            if (!v) return "";
+    scrollTo(0,0);
 
-            return /^https?:\/\//i.test(v)
-                ? v
-                : "https://" + v;
+}
 
-        }
 
+async function save(){
 
-        function whatsapp(v) {
+    let p={
 
-            if (!v) return "";
+        firma_adi:$('firma_adi').value.trim(),
 
-            let n = String(v).replace(/\D/g, "");
+        slug:slugify(
+            $('slug').value.trim()
+        ),
 
-            if (n.startsWith("0"))
-                n = "90" + n.slice(1);
+        telefon:$('telefon').value.trim(),
 
-            if (!n.startsWith("90"))
-                n = "90" + n;
+        whatsapp:$('whatsapp').value.trim(),
 
-            return "https://wa.me/" + n;
+        instagram:$('instagram').value.trim(),
 
-        }
+        google_maps:$('google_maps').value.trim(),
 
+        web_sitesi:$('web_sitesi').value.trim(),
 
-        async function load() {
+        logo_url:$('logo_url').value.trim(),
 
-            const slug =
-                new URLSearchParams(location.search)
-                .get("firma");
+        alici:$('alici').value.trim(),
 
-            const box =
-                document.getElementById("content");
+        iban:$('iban').value.trim(),
 
+        aktif:$('aktif').checked
 
-            if (!slug) {
+    };
 
-                box.innerHTML = `
-                    <div class="error">
-                        <h2>Firma bulunamadı</h2>
-                        <p>
-                            Geçerli bir firma bağlantısı bulunmuyor.
-                        </p>
-                    </div>
-                `;
 
-                return;
-            }
+    if(!p.firma_adi||!p.slug){
 
+        note('Firma adı ve slug zorunludur.');
 
-            const {
-                data,
-                error
-            } = await supabaseClient
+        return;
 
-                .from("firmalar")
+    }
 
-                .select(`
-                    firma_adi,
-                    slug,
-                    telefon,
-                    whatsapp,
-                    instagram,
-                    google_maps,
-                    web_sitesi,
-                    logo_url
-                `)
 
-                .eq("slug", slug)
+    let r=editingId
 
-                .eq("aktif", true)
+        ? await sb
+            .from('firmalar')
+            .update(p)
+            .eq('id',editingId)
 
-                .maybeSingle();
+        : await sb
+            .from('firmalar')
+            .insert(p);
 
 
-            if (error || !data) {
+    if(r.error){
 
-                box.innerHTML = `
-                    <div class="error">
+        note(r.error.message);
 
-                        <h2>Firma bulunamadı</h2>
+        return;
 
-                        <p>
-                            Bu firma bağlantısı aktif değil
-                            veya mevcut değil.
-                        </p>
+    }
 
-                        <small>
-                            ${esc(slug)}
-                        </small>
 
-                    </div>
-                `;
+    note(
+        'Firma başarıyla kaydedildi.',
+        true
+    );
 
-                return;
-            }
+    clearForm();
 
+    load();
 
-            document.title =
-                data.firma_adi || "Firma Kartı";
+}
 
 
-            let buttons = "";
+function clearForm(){
 
+    editingId=null;
 
-            /* TELEFON */
+    $('title').textContent='Yeni Firma';
 
-            if (data.telefon) {
+    [
 
-                const tel =
-                    String(data.telefon)
-                    .replace(/\s+/g, "");
+        'firma_adi',
+        'slug',
+        'telefon',
+        'whatsapp',
+        'instagram',
+        'google_maps',
+        'web_sitesi',
+        'logo_url',
+        'alici',
+        'iban'
 
-                buttons += `
+    ].forEach(k=>$(k).value='');
 
-                    <a
-                        class="phone"
-                        href="tel:${esc(tel)}"
-                    >
+    $('aktif').checked=true;
 
-                        <i class="fa-solid fa-phone"></i>
+}
 
-                        <span>Telefon</span>
 
-                    </a>
+async function del(id){
 
-                `;
+    if(!confirm('Firma silinsin mi?'))
 
-            }
+        return;
 
+    let r=await sb
+        .from('firmalar')
+        .delete()
+        .eq('id',id);
 
-            /* WHATSAPP */
+    if(r.error)
 
-            if (data.whatsapp) {
+        note(r.error.message);
 
-                buttons += `
+    else{
 
-                    <a
-                        class="whatsapp"
-                        href="${esc(whatsapp(data.whatsapp))}"
-                        target="_blank"
-                        rel="noopener"
-                    >
-
-                        <i class="fa-brands fa-whatsapp"></i>
-
-                        <span>WhatsApp</span>
-
-                    </a>
-
-                `;
-
-            }
-
-
-            /* INSTAGRAM */
-
-            if (data.instagram) {
-
-                buttons += `
-
-                    <a
-                        class="instagram"
-                        href="${esc(url(data.instagram))}"
-                        target="_blank"
-                        rel="noopener"
-                    >
-
-                        <i class="fa-brands fa-instagram"></i>
-
-                        <span>Instagram</span>
-
-                    </a>
-
-                `;
-
-            }
-
-
-            /* GOOGLE MAPS */
-
-            if (data.google_maps) {
-
-                buttons += `
-
-                    <a
-                        class="maps"
-                        href="${esc(url(data.google_maps))}"
-                        target="_blank"
-                        rel="noopener"
-                    >
-
-                        <i class="fa-solid fa-location-dot"></i>
-
-                        <span>Google Maps</span>
-
-                    </a>
-
-                `;
-
-            }
-
-
-            /* WEB SİTESİ */
-
-            if (data.web_sitesi) {
-
-                buttons += `
-
-                    <a
-                        class="web"
-                        href="${esc(url(data.web_sitesi))}"
-                        target="_blank"
-                        rel="noopener"
-                    >
-
-                        <i class="fa-solid fa-globe"></i>
-
-                        <span>Web Sitesi</span>
-
-                    </a>
-
-                `;
-
-            }
-
-
-            /* LOGO */
-
-            const logo = data.logo_url
-
-                ? `
-
-                    <img
-                        class="logo"
-                        src="${esc(url(data.logo_url))}"
-                        alt="${esc(data.firma_adi)}"
-                        onerror="this.style.display='none'"
-                    >
-
-                  `
-
-                : "";
-
-
-            /* KART */
-
-            box.innerHTML = `
-
-                ${logo}
-
-                <h1>
-                    ${esc(data.firma_adi)}
-                </h1>
-
-                <div class="sub">
-                    Dijital Firma Kartı
-                </div>
-
-                <div class="buttons">
-                    ${buttons}
-                </div>
-
-            `;
-
-        }
-
+        note(
+            'Firma silindi.',
+            true
+        );
 
         load();
 
-    </script>
+    }
+
+}
+
+
+function qr(slug){
+
+    currentQR=firmaUrl(slug);
+
+    $('qrCard').classList.remove('hide');
+
+    $('qrLink').textContent=currentQR;
+
+    $('qr').innerHTML='';
+
+    new QRCode(
+        $('qr'),
+        {
+            text:currentQR,
+            width:220,
+            height:220
+        }
+    );
+
+    $('qrCard').scrollIntoView({
+        behavior:'smooth'
+    });
+
+}
+
+
+function downloadQR(){
+
+    let img=$('qr').querySelector('img');
+
+    if(!img)
+
+        return;
+
+    let a=document.createElement('a');
+
+    a.href=img.src;
+
+    a.download='firma-qr.png';
+
+    a.click();
+
+}
+
+
+function esc(s){
+
+    return String(s).replace(
+        /[&<>"']/g,
+        m=>({
+            '&':'&amp;',
+            '<':'&lt;',
+            '>':'&gt;',
+            '"':'&quot;',
+            "'":'&#039;'
+        }[m])
+    );
+
+}
+
+
+init();
+
+</script>
 
 </body>
 </html>
