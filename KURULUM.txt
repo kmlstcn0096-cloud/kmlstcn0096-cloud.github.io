@@ -1,0 +1,16 @@
+GITHUB'A YÜKLENECEK DOSYALAR
+1. admin.html  (mevcut admin.html ile değiştir)
+2. manifest.webmanifest
+3. sw.js
+4. icon-192.png
+5. icon-512.png
+
+Hepsini repository ana dizinine yükleyip Commit changes yap.
+
+TELEFONA KURULUM
+1. Android Chrome'da https://kmlstcn0096-cloud.github.io/admin.html adresini aç.
+2. Chrome menüsünden 'Ana ekrana ekle' veya 'Uygulamayı yükle' seç.
+3. Yiğit Yönetim simgesi ana ekrana gelir.
+4. Simgeye dokununca yönetim paneli uygulama görünümünde açılır.
+
+Not: Supabase giriş, firma verileri ve logo yükleme internet bağlantısı gerektirir.

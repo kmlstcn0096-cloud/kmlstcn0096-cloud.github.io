@@ -20,7 +20,24 @@ button,.button{border:0;border-radius:11px;padding:11px 15px;font-weight:800;cur
 .listbox{margin-top:18px}.listhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px}.count{background:#eef1ff;color:#4254bd;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:800}
 .tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:780px}th,td{text-align:left;padding:13px 10px;border-bottom:1px solid #edf0f4;font-size:14px}th{font-size:12px;color:#747d8b;background:#fafbfc}.rowactions{display:flex;gap:7px}.small{padding:8px 10px;font-size:12px}.hidden{display:none!important}
 @media(max-width:800px){.grid,.fields{grid-template-columns:1fr}.full{grid-column:auto}.wrap{padding:12px}.top{align-items:flex-start}.logorow{align-items:flex-start;flex-direction:column}}
-</style></head>
+</style>
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#172033">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Yiğit Yönetim">
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(console.error);
+  });
+}
+</script>
+
+</head>
 <body>
 <div id="loginView" class="wrap"><section class="box login"><h1>Yönetici Girişi</h1><p>Firma yönetim paneline erişmek için giriş yap.</p>
 <label>E-posta</label><input id="email" type="email" autocomplete="username"><label>Şifre</label><input id="password" type="password" autocomplete="current-password">

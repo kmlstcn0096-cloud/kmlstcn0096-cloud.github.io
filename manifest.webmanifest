@@ -1,0 +1,27 @@
+{
+  "id": "./admin.html",
+  "name": "Yiğit İletişim Yönetim Paneli",
+  "short_name": "Yiğit Yönetim",
+  "description": "Dijital firma kartı yönetim paneli",
+  "start_url": "./admin.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f3f6fb",
+  "theme_color": "#172033",
+  "lang": "tr",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
