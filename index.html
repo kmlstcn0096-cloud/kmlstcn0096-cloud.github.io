@@ -1,506 +1,261 @@
-```html
 <!DOCTYPE html>
 <html lang="tr">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
-<title>Yiğit İletişim</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ödeme Bilgileri</title>
 
 <style>
-
 * {
     box-sizing: border-box;
 }
 
 body {
-
     margin: 0;
-
-    padding: 20px;
-
     min-height: 100vh;
-
-    background:
-        linear-gradient(
-            135deg,
-            #111827,
-            #1f2937
-        );
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
+    font-family: Arial, sans-serif;
+    background: linear-gradient(145deg, #111827, #1f2937);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
     color: #111827;
-
 }
-
-
-.container {
-
-    width: 100%;
-
-    max-width: 450px;
-
-    margin: auto;
-
-}
-
-
-/* =========================
-   ANA KART
-========================= */
 
 .card {
-
+    width: 100%;
+    max-width: 430px;
     background: white;
-
-    border-radius: 28px;
-
-    padding: 30px 24px;
-
-    box-shadow:
-        0 15px 40px
-        rgba(0,0,0,.25);
-
+    border-radius: 24px;
+    padding: 28px 22px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
 }
-
-
-/* =========================
-   LOGO
-========================= */
 
 .logo {
-
-    width: 95px;
-
-    height: 95px;
-
-    margin: 0 auto 18px;
-
-    border-radius: 50%;
-
-    background: #000;
-
-    border: 5px solid #ffd400;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    color: #ffd400;
-
-    font-size: 24px;
-
-    font-weight: 900;
-
-}
-
-
-/* =========================
-   BAŞLIK
-========================= */
-
-.shop-name {
-
-    text-align: center;
-
-    font-size: 27px;
-
-    font-weight: 900;
-
-    margin: 0;
-
-}
-
-
-.subtitle {
-
-    text-align: center;
-
-    color: #6b7280;
-
-    margin-top: 8px;
-
-    margin-bottom: 25px;
-
-}
-
-
-/* =========================
-   BİLGİ KUTULARI
-========================= */
-
-.info {
-
-    background: #f9fafb;
-
-    border: 1px solid #e5e7eb;
-
-    border-radius: 16px;
-
-    padding: 17px;
-
-    margin-top: 12px;
-
-}
-
-
-.info-title {
-
-    font-size: 13px;
-
-    color: #6b7280;
-
-    font-weight: 700;
-
-    margin-bottom: 6px;
-
-}
-
-
-.info-value {
-
-    font-size: 17px;
-
-    font-weight: 800;
-
-    word-break: break-word;
-
-}
-
-
-/* =========================
-   IBAN
-========================= */
-
-.iban-box {
-
+    width: 75px;
+    height: 75px;
+    margin: 0 auto 15px;
+    border-radius: 20px;
     background: #111827;
-
     color: white;
-
-    border-radius: 18px;
-
-    padding: 20px;
-
-    margin-top: 15px;
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    font-weight: bold;
 }
 
-
-.iban-title {
-
-    color: #9ca3af;
-
-    font-size: 13px;
-
-    font-weight: 700;
-
-    margin-bottom: 8px;
-
-}
-
-
-.iban {
-
-    font-size: 16px;
-
-    font-weight: 800;
-
-    line-height: 1.6;
-
-    word-break: break-all;
-
-}
-
-
-.copy-btn {
-
-    width: 100%;
-
-    border: none;
-
-    border-radius: 13px;
-
-    padding: 14px;
-
-    margin-top: 14px;
-
-    background: #ffd400;
-
-    color: #111;
-
-    font-size: 16px;
-
-    font-weight: 900;
-
-    cursor: pointer;
-
-}
-
-
-/* =========================
-   BUTONLAR
-========================= */
-
-.action {
-
-    display: block;
-
-    width: 100%;
-
-    text-decoration: none;
-
+h1 {
     text-align: center;
-
-    border-radius: 14px;
-
-    padding: 15px;
-
-    margin-top: 12px;
-
-    font-size: 16px;
-
-    font-weight: 900;
-
+    margin: 5px 0 8px;
+    font-size: 25px;
 }
-
 
 .instagram {
+    text-align: center;
+    color: #777;
+    margin-bottom: 25px;
+}
 
+.info {
+    background: #f3f4f6;
+    border-radius: 16px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+.label {
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 5px;
+}
+
+.value {
+    font-size: 16px;
+    font-weight: bold;
+    word-break: break-word;
+}
+
+.iban-box {
     background: #111827;
-
     color: white;
-
+    border-radius: 16px;
+    padding: 16px;
+    margin-top: 15px;
 }
 
+.iban {
+    font-size: 15px;
+    word-break: break-all;
+    line-height: 1.5;
+}
 
-.phone {
+button,
+.action {
+    width: 100%;
+    border: 0;
+    border-radius: 14px;
+    padding: 14px;
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+}
 
+.copy {
+    background: white;
+    color: #111827;
+}
+
+.instagram-btn {
+    background: #e1306c;
+    color: white;
+}
+
+.phone-btn {
     background: #16a34a;
-
     color: white;
-
 }
-
-
-/* =========================
-   ALT YAZI
-========================= */
 
 .footer {
-
     text-align: center;
-
-    color: #9ca3af;
-
-    font-size: 12px;
-
+    color: #999;
+    font-size: 11px;
     margin-top: 20px;
-
 }
-
 </style>
-
 </head>
-
 
 <body>
 
-
-<div class="container">
-
-
 <div class="card">
 
+    <div class="logo" id="logo">Yİ</div>
 
-    <!-- LOGO -->
+    <h1 id="firma">YİĞİT İLETİŞİM</h1>
 
-    <div class="logo">
-
-        Yİ
-
+    <div class="instagram" id="instagramText">
+        @ygtmobile
     </div>
-
-
-    <!-- FİRMA -->
-
-    <h1
-        class="shop-name"
-        id="shopName">
-
-        YİĞİT İLETİŞİM
-
-    </h1>
-
-
-    <div class="subtitle">
-
-        Ödeme ve İletişim Bilgileri
-
-    </div>
-
-
-
-    <!-- INSTAGRAM -->
 
     <div class="info">
-
-        <div class="info-title">
-
-            Instagram
-
-        </div>
-
-        <div
-            class="info-value"
-            id="instagram">
-
-            @ygtmobile
-
-        </div>
-
+        <div class="label">ALICI / HESAP SAHİBİ</div>
+        <div class="value" id="alici">Kemal SÜTİÇEN</div>
     </div>
-
-
-
-    <!-- ALICI -->
-
-    <div class="info">
-
-        <div class="info-title">
-
-            Alıcı / Hesap Sahibi
-
-        </div>
-
-        <div
-            class="info-value"
-            id="receiver">
-
-            Kemal SÜTİÇEN
-
-        </div>
-
-    </div>
-
-
-
-    <!-- IBAN -->
 
     <div class="iban-box">
-
-        <div class="iban-title">
-
-            IBAN
-
-        </div>
-
-        <div
-            class="iban"
-            id="iban">
-
+        <div class="label" style="color:#aaa;">IBAN</div>
+        <div class="iban" id="iban">
             TR07 0015 7000 0000 0061 8501 99
-
         </div>
 
-
-        <button
-            class="copy-btn"
-            onclick="copyIBAN()">
-
-            📋 IBAN'ı Kopyala
-
+        <button class="copy" onclick="ibanKopyala()">
+            IBAN KOPYALA
         </button>
-
     </div>
 
-
-
-    <!-- INSTAGRAM BUTONU -->
-
-    <a
-        class="action instagram"
-        id="instagramButton"
-        href="https://instagram.com/ygtmobile"
-        target="_blank">
-
-        📷 Instagram'a Git
-
+    <a id="instagramBtn"
+       class="action instagram-btn"
+       target="_blank">
+        INSTAGRAM'A GİT
     </a>
 
-
-
-    <!-- TELEFON -->
-
-    <a
-        class="action phone"
-        id="phoneButton"
-        href="tel:05012966196">
-
-        📞 0501 296 61 96
-
+    <a id="phoneBtn"
+       class="action phone-btn">
+        TELEFONU ARA
     </a>
-
-
 
     <div class="footer">
-
-        Yiğit İletişim
-
+        QR ile açılan güvenli bilgi sayfası
     </div>
 
-
 </div>
-
-</div>
-
-
 
 <script>
 
-/* =========================
-   IBAN KOPYALA
-========================= */
+const params = new URLSearchParams(window.location.search);
 
-function copyIBAN() {
+const firma =
+    params.get("firma") ||
+    "YİĞİT İLETİŞİM";
 
-    const iban =
-        document
-        .getElementById("iban")
-        .innerText
-        .replace(/\s/g, "");
+const instagram =
+    params.get("instagram") ||
+    "ygtmobile";
+
+const telefon =
+    params.get("telefon") ||
+    "0501 296 61 96";
+
+const alici =
+    params.get("alici") ||
+    "Kemal SÜTİÇEN";
+
+const iban =
+    params.get("iban") ||
+    "TR07 0015 7000 0000 0061 8501 99";
 
 
-    navigator.clipboard
-        .writeText(iban)
-        .then(function() {
+document.getElementById("firma").textContent = firma;
 
-            alert("IBAN kopyalandı.");
+document.getElementById("alici").textContent = alici;
 
-        })
+document.getElementById("iban").textContent = iban;
 
-        .catch(function() {
+document.getElementById("instagramText").textContent =
+    instagram ? "@" + instagram.replace("@", "") : "";
 
-            alert("IBAN kopyalanamadı.");
+const instagramBtn =
+    document.getElementById("instagramBtn");
 
-        });
+if (instagram) {
+
+    instagramBtn.href =
+        "https://instagram.com/" +
+        instagram.replace("@", "");
+
+} else {
+
+    instagramBtn.style.display = "none";
+
+}
+
+
+const phoneBtn =
+    document.getElementById("phoneBtn");
+
+if (telefon) {
+
+    phoneBtn.href =
+        "tel:" + telefon.replace(/\D/g, "");
+
+} else {
+
+    phoneBtn.style.display = "none";
+
+}
+
+
+function ibanKopyala() {
+
+    navigator.clipboard.writeText(iban)
+    .then(function() {
+
+        alert("IBAN kopyalandı.");
+
+    })
+    .catch(function() {
+
+        alert("IBAN: " + iban);
+
+    });
 
 }
 
 </script>
 
-
 </body>
-
 </html>
-```
