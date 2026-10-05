@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>Dijital Firma Kartı</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;background:#eef1f5;color:#080b10}
+body{padding:18px 10px}
+.shell{width:min(100%,430px);margin:auto;background:#fff;border-radius:30px;overflow:hidden;box-shadow:0 18px 50px #11182724;border:1px solid #e4e7ec}
+.hero{height:150px;position:relative;background:linear-gradient(135deg,#171717,#2c2418 50%,#111);overflow:hidden}
+.hero:before,.hero:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 36px,#f4c40012 37px 39px);opacity:.65}
+.hero:after{background:linear-gradient(135deg,transparent 35%,#ffc80018 35% 37%,transparent 37% 67%,#ffc80012 67% 69%,transparent 69%)}
+.content{position:relative;padding:0 22px 24px;background:#fff}
+.logo{width:142px;height:142px;border-radius:50%;object-fit:contain;background:#080808;border:8px solid #fff;box-shadow:0 8px 22px #0003;display:none;position:relative;margin:-70px auto 10px;z-index:2}
+.head{text-align:center}
+h1{font-size:35px;line-height:1;margin:4px 0 8px;font-weight:900;letter-spacing:-1.5px}
+.subtitle{font-size:12px;letter-spacing:3px;text-transform:uppercase;margin-bottom:20px;color:#25272b}
+.topActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.topBtn{height:92px;border:0;border-radius:18px;color:#fff;text-decoration:none;display:flex;align-items:center;padding:14px 15px;gap:12px;box-shadow:0 8px 16px #1112;cursor:pointer}
+.call{background:linear-gradient(135deg,#05c866,#00a74f)}
+.save{background:linear-gradient(135deg,#0e9cff,#064ddc);font-family:inherit}
+.topIcon{font-size:42px;width:52px;text-align:center;flex:none}
+.topText{text-align:left;min-width:0}
+.topTitle{display:block;font-size:20px;font-weight:900;line-height:1.05}
+.topSub{display:block;font-size:13px;margin-top:7px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.socialGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+.tile{height:132px;border:0;border-radius:19px;background:#fff;color:#090b0f;text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 8px 22px #11182718;border:1px solid #f0f1f3;padding:10px 5px;text-align:center}
+.tileIcon{width:66px;height:66px;display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+.waIcon{border-radius:18px;background:linear-gradient(145deg,#08e874,#00b953);color:#fff;font-size:45px;box-shadow:0 5px 12px #00b95333}
+.igIcon{border-radius:18px;color:#fff;font-size:42px;background:radial-gradient(circle at 32% 100%,#ffd600 0 18%,#ff7a00 27%,#ff0169 52%,#d300c5 72%,#7638fa 100%);box-shadow:0 5px 12px #c52e7b33}
+.mapIcon svg{width:61px;height:61px;display:block}
+.tile strong{font-size:14px;font-weight:900;line-height:1.05}
+.tile small{font-size:11px;margin-top:5px;line-height:1.1}
+.ibanAction{width:100%;min-height:82px;border:0;border-radius:20px;background:linear-gradient(100deg,#ffc400,#ffd31a);display:grid;grid-template-columns:60px 1px 1fr 22px;align-items:center;gap:12px;padding:13px 17px;box-shadow:0 8px 20px #d9aa0028;cursor:pointer;color:#080b10;text-align:left;font-family:inherit}
+.cardIcon{font-size:37px;text-align:center}
+.divider{height:50px;background:#15151533}
+.ibanTitle{font-size:18px;font-weight:900;display:block}
+.ibanSub{font-size:12px;display:block;margin-top:5px}
+.chev{font-size:24px}
+.desc{text-align:center;color:#687182;font-size:13px;line-height:1.45;margin-top:15px}
+.loading,.error{width:min(94vw,430px);margin:60px auto;background:#fff;border-radius:20px;padding:28px;text-align:center;box-shadow:0 10px 30px #18223810}.error{color:#b42318}.hidden{display:none!important}
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);background:#111827;color:#fff;padding:11px 18px;border-radius:999px;font-weight:800;font-size:13px;opacity:0;pointer-events:none;transition:.22s;z-index:20}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:390px){
+ body{padding:0;background:#fff}.shell{border-radius:0;border:0;box-shadow:none}
+ .content{padding-left:15px;padding-right:15px}
+ .hero{height:135px}.logo{width:126px;height:126px;margin-top:-62px}
+ h1{font-size:30px}.subtitle{font-size:10px;letter-spacing:2px}
+ .topBtn{height:84px;padding:12px 10px}.topIcon{font-size:36px;width:45px}.topTitle{font-size:17px}.topSub{font-size:12px}
+ .socialGrid{gap:7px}.tile{height:120px}.tileIcon{width:59px;height:59px}.waIcon{font-size:40px}.igIcon{font-size:38px}.mapIcon svg{width:56px;height:56px}
+ .tile strong{font-size:12px}.tile small{font-size:10px}
+}
+</style>
+</head>
+<body>
+<div id="loading" class="loading">Firma bilgileri yükleniyor...</div>
+<div id="error" class="error hidden">Firma bulunamadı.</div>
+
+<main id="card" class="shell hidden">
+  <div class="hero"></div>
+  <div class="content">
+    <header class="head">
+      <img id="logo" class="logo" alt="Firma logosu">
+      <h1 id="name"></h1>
+      <div class="subtitle">DİJİTAL FİRMA KARTI</div>
+    </header>
+
+    <section id="phoneActions" class="topActions">
+      <a id="phoneBtn" class="topBtn call" href="#">
+        <i class="fa-solid fa-phone topIcon"></i>
+        <span class="topText"><span class="topTitle">ARA</span><span id="phoneText" class="topSub"></span></span>
+      </a>
+      <button id="saveContactBtn" class="topBtn save" type="button">
+        <i class="fa-solid fa-user-plus topIcon"></i>
+        <span class="topText"><span class="topTitle">REHBERE<br>KAYDET</span><span id="saveName" class="topSub"></span></span>
+      </button>
+    </section>
+
+    <section class="socialGrid">
+      <a id="waBtn" class="tile" href="#" target="_blank">
+        <span class="tileIcon waIcon"><i class="fa-brands fa-whatsapp"></i></span>
+        <strong>WHATSAPP</strong><small>MESAJ AT</small>
+      </a>
+      <a id="igBtn" class="tile" href="#" target="_blank">
+        <span class="tileIcon igIcon"><i class="fa-brands fa-instagram"></i></span>
+        <strong>INSTAGRAM</strong><small>TAKİP ET</small>
+      </a>
+      <a id="mapBtn" class="tile" href="#" target="_blank">
+        <span class="tileIcon mapIcon">
+          <svg viewBox="0 0 64 64" aria-hidden="true">
+            <path fill="#4285F4" d="M32 3C20.4 3 11 12.4 11 24c0 15.8 21 37 21 37s21-21.2 21-37C53 12.4 43.6 3 32 3z"/>
+            <path fill="#34A853" d="M32 61s21-21.2 21-37c0-2.1-.3-4.2-.9-6.1L32 38.5V61z"/>
+            <path fill="#FBBC04" d="M11.9 17.9A20.9 20.9 0 0 0 11 24c0 5.5 2.6 12 6.1 18.1L32 27.2 11.9 17.9z"/>
+            <path fill="#EA4335" d="M32 3c-8.9 0-16.5 5.5-19.6 13.3L32 27.2l19.6-10.9C48.5 8.5 40.9 3 32 3z"/>
+            <circle cx="32" cy="24" r="8.5" fill="#fff"/>
+          </svg>
+        </span>
+        <strong>KONUMU AÇ</strong><small>GOOGLE MAPS</small>
+      </a>
+    </section>
+
+    <button id="ibanAction" class="ibanAction" type="button" onclick="copyIban()">
+      <i class="fa-solid fa-credit-card cardIcon"></i><span class="divider"></span>
+      <span><span id="ibanTitle" class="ibanTitle">IBAN KOPYALA</span><span id="ibanSub" class="ibanSub">Ödeme yapmak için tıklayın</span></span>
+      <i class="fa-solid fa-chevron-right chev"></i>
+    </button>
+
+    <div id="description" class="desc"></div>
+  </div>
+</main>
+<div id="toast" class="toast">IBAN kopyalandı</div>
+
+<script>
+const db=window.supabase.createClient("https://cxcuhkqidlcvifobxlpy.supabase.co","sb_publishable_CjiShvDAq5eaanacxYAgDQ_tzoMAU0i");
+const $=id=>document.getElementById(id);
+let currentFirm=null;
+
+function formatPhone(v){
+ let d=(v||"").replace(/\D/g,"");
+ if(d.startsWith("90")&&d.length===12)d="0"+d.slice(2);
+ if(d.length===11)return d.slice(0,4)+" "+d.slice(4,7)+" "+d.slice(7,9)+" "+d.slice(9,11);
+ return v||"";
+}
+function saveContact(name,phone){
+ if(!phone)return;
+ const clean=(phone||"").replace(/\s/g,"");
+ const safeName=(name||"Firma").replace(/\r|\n/g," ");
+ const vcard=["BEGIN:VCARD","VERSION:3.0","FN:"+safeName,"ORG:"+safeName,"TEL;TYPE=CELL:"+clean,"END:VCARD"].join("\r\n");
+ const blob=new Blob([vcard],{type:"text/vcard;charset=utf-8"});
+ const u=URL.createObjectURL(blob),a=document.createElement("a");
+ a.href=u;a.download=(safeName.replace(/[^a-zA-Z0-9ğüşıöçĞÜŞİÖÇ _-]/g,"")||"firma")+".vcf";
+ document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1500);
+}
+function toast(t){
+ const el=$("toast");el.textContent=t;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),1700);
+}
+async function load(){
+ const slug=new URLSearchParams(location.search).get("firma");
+ if(!slug)return fail();
+ const {data,error}=await db.from("firms").select("*").eq("slug",slug).maybeSingle();
+ if(error||!data)return fail();
+ currentFirm=data;
+ $("loading").classList.add("hidden");$("card").classList.remove("hidden");
+ $("name").textContent=data.company_name||"Firma";
+ $("saveName").textContent=data.company_name||"";
+ if(data.logo_url){$("logo").src=data.logo_url;$("logo").style.display="block"}else{$("logo").style.display="block"}
+ if(data.phone){
+   $("phoneBtn").href="tel:"+data.phone;$("phoneText").textContent=formatPhone(data.phone);
+   $("saveContactBtn").onclick=()=>saveContact(data.company_name||"Firma",data.phone);
+ }else{$("phoneActions").style.display="none"}
+ let wa=(data.whatsapp||"").replace(/\D/g,"");
+ if(wa)$("waBtn").href="https://wa.me/"+wa;else $("waBtn").style.display="none";
+ if(data.instagram)$("igBtn").href=data.instagram;else $("igBtn").style.display="none";
+ if(data.maps)$("mapBtn").href=data.maps;else $("mapBtn").style.display="none";
+ if(!data.iban)$("ibanAction").style.display="none";
+ $("description").textContent=data.description||"";
+}
+function fail(){$("loading").classList.add("hidden");$("error").classList.remove("hidden")}
+async function copyIban(){
+ if(!currentFirm?.iban)return;
+ const v=currentFirm.iban.replace(/\s/g,"");
+ try{await navigator.clipboard.writeText(v)}
+ catch(e){const ta=document.createElement("textarea");ta.value=v;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove()}
+ $("ibanTitle").textContent="KOPYALANDI ✓";$("ibanSub").textContent=currentFirm.account_name||"IBAN panoya kopyalandı";toast("IBAN kopyalandı");
+ setTimeout(()=>{$("ibanTitle").textContent="IBAN KOPYALA";$("ibanSub").textContent="Ödeme yapmak için tıklayın"},1800);
+}
+load();
+</script>
+</body>
+</html>
