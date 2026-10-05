@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Dijital Firma Kartı</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Arial,sans-serif;background:#f3f6fb;color:#111827}
+body{padding:24px 14px}
+.card{width:min(94vw,540px);margin:0 auto;background:#fff;border:1px solid #e1e6ee;border-radius:28px;padding:34px 28px;box-shadow:0 14px 40px rgba(28,40,64,.08)}
+.header{text-align:center}
+.logo{width:112px;height:112px;border-radius:50%;object-fit:contain;background:#fff;border:6px solid #fff;box-shadow:0 8px 20px rgba(0,0,0,.16);display:none;margin:0 auto 22px}
+h1{font-size:34px;line-height:1.05;margin:0;font-weight:900;letter-spacing:-1px}
+.subtitle{font-size:18px;color:#737b88;margin:12px 0 28px}
+.buttons{display:grid;gap:12px}
+.btn{height:68px;border-radius:18px;color:#fff;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:13px;font-size:21px;font-weight:800;box-shadow:0 6px 15px rgba(22,32,51,.07)}
+.btn i{font-size:25px}.phone{background:#3b465a}.wa{background:#22cf68}.ig{background:linear-gradient(110deg,#ff722d,#ee2f68,#6c3bdd)}.maps{background:#3069e8}
+.pay{margin-top:26px;border:1px solid #e0e5eb;border-radius:20px;padding:22px;background:#fff}
+.payhead{display:flex;gap:13px;align-items:center;padding-bottom:18px;border-bottom:1px solid #e6e9ee}
+.payicon{width:50px;height:50px;border-radius:14px;background:#e9fff5;display:grid;place-items:center;color:#11a85a;font-size:24px}
+.pay h2{font-size:22px;margin:0 0 5px}.pay p{margin:0;color:#8a93a3;font-size:14px}
+.label{font-size:12px;font-weight:900;letter-spacing:1px;color:#969eab;margin-top:20px}
+.account{font-size:19px;font-weight:800;margin-top:7px}
+.ibanbox{margin-top:17px;background:#f2f4f7;border:1px solid #dfe4ea;border-radius:16px;padding:16px}
+.ibanrow{display:flex;justify-content:space-between;align-items:center;gap:12px}.iban{font-size:17px;font-weight:800;letter-spacing:.4px;word-break:break-word}
+.copy{flex:none;border:0;background:#394559;color:#fff;border-radius:12px;padding:11px 13px;font-weight:800;cursor:pointer}
+.desc{margin:20px 2px 0;color:#687182;line-height:1.55;font-size:14px;text-align:center}
+.loading,.error{width:min(94vw,540px);margin:60px auto;background:#fff;border-radius:20px;padding:28px;text-align:center;box-shadow:0 10px 30px #18223810}.error{color:#b42318}
+.hidden{display:none}
+@media(max-width:600px){
+ body{padding:12px 9px}
+ .card{width:100%;padding:27px 20px;border-radius:24px}
+ .logo{width:100px;height:100px;margin-bottom:19px}
+ h1{font-size:clamp(27px,8vw,34px)}.subtitle{font-size:16px;margin:10px 0 24px}
+ .btn{height:62px;border-radius:17px;font-size:19px}.btn i{font-size:23px}
+ .pay{padding:18px;margin-top:22px}.pay h2{font-size:20px}.ibanrow{align-items:flex-start;flex-direction:column}.copy{align-self:flex-end}
+}
+@media(min-width:900px){
+ body{padding-top:38px;padding-bottom:38px}
+ .card{padding:36px 30px}
+}
+</style>
+</head><body>
+<div id="loading" class="loading">Firma bilgileri yükleniyor...</div>
+<div id="error" class="error hidden">Firma bulunamadı.</div>
+<main id="card" class="card hidden">
+ <header class="header"><img id="logo" class="logo" alt="Firma logosu"><h1 id="name"></h1><div class="subtitle">Dijital Firma Kartı</div></header>
+ <section class="buttons">
+  <a id="phoneBtn" class="btn phone" href="#"><i class="fa-solid fa-phone"></i>Ara</a>
+  <a id="waBtn" class="btn wa" href="#" target="_blank"><i class="fa-brands fa-whatsapp"></i>WhatsApp</a>
+  <a id="igBtn" class="btn ig" href="#" target="_blank"><i class="fa-brands fa-instagram"></i>Instagram</a>
+  <a id="mapBtn" class="btn maps" href="#" target="_blank"><i class="fa-solid fa-location-dot"></i>Google Maps</a>
+ </section>
+ <section id="pay" class="pay">
+  <div class="payhead"><div class="payicon"><i class="fa-solid fa-building-columns"></i></div><div><h2>Ödeme Bilgileri</h2><p>Havale / EFT için kullanabilirsiniz</p></div></div>
+  <div class="label">ALICI / HESAP SAHİBİ</div><div id="account" class="account"></div>
+  <div class="ibanbox"><div class="label" style="margin-top:0">IBAN</div><div class="ibanrow"><div id="iban" class="iban"></div><button class="copy" onclick="copyIban()"><i class="fa-regular fa-copy"></i> Kopyala</button></div></div>
+ </section>
+ <div id="description" class="desc"></div>
+</main>
+<script>
+const db=window.supabase.createClient("https://cxcuhkqidlcvifobxlpy.supabase.co","sb_publishable_CjiShvDAq5eaanacxYAgDQ_tzoMAU0i");
+const $=id=>document.getElementById(id);
+function hideIfEmpty(el,val){if(!val)el.style.display="none"}
+async function load(){
+ const slug=new URLSearchParams(location.search).get("firma");
+ if(!slug) return fail();
+ const {data,error}=await db.from("firms").select("*").eq("slug",slug).maybeSingle();
+ if(error||!data)return fail();
+ $("loading").classList.add("hidden");$("card").classList.remove("hidden");
+ $("name").textContent=data.company_name||"Firma";
+ if(data.logo_url){$("logo").src=data.logo_url;$("logo").style.display="block"}
+ $("phoneBtn").href="tel:"+(data.phone||""); hideIfEmpty($("phoneBtn"),data.phone);
+ let wa=(data.whatsapp||"").replace(/\D/g,"");$("waBtn").href="https://wa.me/"+wa;hideIfEmpty($("waBtn"),wa);
+ $("igBtn").href=data.instagram||"#";hideIfEmpty($("igBtn"),data.instagram);
+ $("mapBtn").href=data.maps||"#";hideIfEmpty($("mapBtn"),data.maps);
+ $("account").textContent=data.account_name||"";
+ $("iban").textContent=data.iban||"";
+ if(!data.account_name&&!data.iban)$("pay").style.display="none";
+ $("description").textContent=data.description||"";
+}
+function fail(){$("loading").classList.add("hidden");$("error").classList.remove("hidden")}
+async function copyIban(){let v=$("iban").textContent.replace(/\s/g,"");try{await navigator.clipboard.writeText(v);alert("IBAN kopyalandı.")}catch(e){alert("IBAN: "+v)}}
+load();
+</script>
+</body></html>
